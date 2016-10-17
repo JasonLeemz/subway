@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import MapBase from './MapBase';
-// import '../res/styles/App.scss';
+import '../res/styles/App.scss';
 
 class App extends Component {
   render() {

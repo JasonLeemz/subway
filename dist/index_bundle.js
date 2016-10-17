@@ -21460,6 +21460,8 @@
 
 	var _MapBase2 = _interopRequireDefault(_MapBase);
 
+	__webpack_require__(181);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21467,8 +21469,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// import '../res/styles/App.scss';
 
 	var App = function (_Component) {
 	  _inherits(App, _Component);
@@ -21526,6 +21526,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	// var FontAwesome = require('react-fontawesome');
+
+
 	var Header = function (_Component) {
 	    _inherits(Header, _Component);
 
@@ -21540,18 +21543,23 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'Header' },
+	                { className: 'header' },
 	                _react2.default.createElement(
 	                    'span',
-	                    { className: 'opt-arror' },
-	                    '<'
+	                    { className: 'opt-arrow' },
+	                    _react2.default.createElement('i', { className: 'fa fa-angle-left' })
 	                ),
 	                _react2.default.createElement('input', { type: 'text', placeholder: '\u8F93\u5165\u8D77\u70B9', className: 'local-input' }),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'opt-swap' },
+	                    _react2.default.createElement('i', { className: 'fa fa-exchange' })
+	                ),
 	                _react2.default.createElement('input', { type: 'text', placeholder: '\u8F93\u5165\u7EC8\u70B9', className: 'local-input' }),
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'local-name' },
-	                    '\u57CE\u5E02'
+	                    '\u5317\u4EAC'
 	                )
 	            );
 	        }
@@ -21597,7 +21605,7 @@
 
 
 	// module
-	exports.push([module.id, "", ""]);
+	exports.push([module.id, ".header {\n  display: block;\n  background: rgba(200, 200, 200, 0.9);\n  position: fixed;\n  width: 100%;\n  z-index: 999;\n  padding: 5px 0;\n  border-bottom: 1px solid #c8c8c8;\n  font-size: 0;\n  overflow: hidden;\n}\n\n.header .opt-arrow {\n  display: inline-block;\n  width: 5%;\n  text-align: center;\n  font-size: 20px;\n  color: #5d5d5d;\n}\n\n.header input {\n  height: 25px;\n  border: 1px solid #DDD;\n  padding: 2px;\n  width: 35%;\n}\n\n.header .opt-swap {\n  display: inline-block;\n  width: 8%;\n  text-align: center;\n  font-size: 15px;\n  color: #5d5d5d;\n}\n\n.header .local-name {\n  display: inline-block;\n  width: 17%;\n  text-align: center;\n  font-size: 15px;\n  color: #548dd4;\n  text-shadow: 1px 1px 1px #FFF;\n}\n", ""]);
 
 	// exports
 
@@ -22032,6 +22040,46 @@
 	});
 
 	/*** EXPORTS FROM exports-loader ***/
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(182);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(178)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers:[\"last 2 version\"]}!./../../../node_modules/sass-loader/index.js?outputStyle=expanded!./App.scss", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers:[\"last 2 version\"]}!./../../../node_modules/sass-loader/index.js?outputStyle=expanded!./App.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(177)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "@charset \"UTF-8\";\nbody {\n  margin: 0;\n  padding: 0;\n  font-family: \"Helvetica Neue\",Helvetica,\"PingFang SC\",\"Hiragino Sans GB\",\"Microsoft YaHei\",\"\\5FAE\\8F6F\\96C5\\9ED1\",Arial,sans-serif;\n}\n\n* {\n  box-sizing: border-box;\n}\n", ""]);
+
+	// exports
+
 
 /***/ }
 /******/ ]);

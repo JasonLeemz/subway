@@ -14,7 +14,7 @@ class MapBase extends React.Component {
     }
 
     componentDidMount() {
-//开启easy模式, 直接完成地铁图基本功能, 无需自己写交互
+        //开启easy模式, 直接完成地铁图基本功能, 无需自己写交互
         window.cbk = function(){
             var mysubway = subway("map-base", {
                 easy: 1
