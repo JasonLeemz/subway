@@ -52,11 +52,11 @@ module.exports = {
                 test: /\.styl/,
                 loader: 'style-loader!css-loader!stylus-loader'
             },
-            {
-                test: require.resolve("./src/res/gaode.js"),
-                // test: require.resolve("http://webapi.amap.com/subway?v=1.0&key=a045c67ae219c332721c16d4d99f7720&callback=cbk"),
-                loader: "exports-loader"
-            }
+            // {
+            //     test: /\.\/src\/res\/tools\/*\.js/,
+            //     // test: require.resolve("http://webapi.amap.com/subway?v=1.0&key=a045c67ae219c332721c16d4d99f7720&callback=cbk"),
+            //     loader: "exports-loader"
+            // }
         ],
     },
     // 启动开发测试用 server 设定（不能用在 production）
