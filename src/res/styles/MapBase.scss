@@ -13,22 +13,23 @@
 }
 
 #opt-float{
-  width:.8rem;
-  height:.8rem;
+  width:.7rem;
+  height:.7rem;
   overflow: hidden;
-  border:1px solid #9d9d9d;
-  border-radius: .05rem;
+  //border:1px solid #9d9d9d;
+  border-radius: .03rem;
   position: fixed;
   z-index: 999;
   top:1.3rem;
   right:.35rem;
-  font-size: .2rem;
+  font-size: .06rem;
   background: #FeFeFe;
   color: #9d9d9d;
   font-weight: 300;
   text-align: center;
-  padding-top:.07rem;
-  box-shadow: 1px 1px 1px #9d9d9d;
+  //padding-top:.07rem;
+  box-shadow: 0 0 6px 1px rgba(0,0,0,.3);
+
   .fa{
     font-size: .4rem;
   }
