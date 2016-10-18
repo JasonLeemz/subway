@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 require('../res/tools/gaode.js');
+import '../res/styles/Header.scss';
 import '../res/styles/MapBase.scss';
 
 class MapBase extends React.Component {
@@ -10,7 +11,12 @@ class MapBase extends React.Component {
             localName: '北京',
             adcode: '1100',
             mysubway: {},
+            cityList: {},
+            style: {
+                cityList: {'display': 'none'}
+            },
         };
+
     }
 
     componentWillMount() {
@@ -22,17 +28,10 @@ class MapBase extends React.Component {
         window.cbk = function () {
             let mysubway = subway("map-base", {
                 easy: 1,
-                adcode: this.state.adcode
             });
             this.setState({
                 mysubway: mysubway,
             });
-
-            let city = {
-                localName: this.state.localName,
-                adcode: this.state.adcode,
-            };
-            this.props.callBackMysubway(mysubway, city);
 
             //
             // mysubway.event.on("subway.complete", function () {
@@ -60,16 +59,54 @@ class MapBase extends React.Component {
 
     }
 
+    handleCityBtnClick(e) {
+        //获取城市列表
+        let mysubway = this.state.mysubway;
+        mysubway.getCityList((cityList)=> {
+            this.setState({
+                cityList: cityList
+            });
+        });
+
+        this.setState({
+            style: {
+                cityList: {'display': 'block'}
+            },
+        });
+    }
+
+    handleCityBtnCancel(e) {
+        this.setState({
+            style: {
+                cityList: {'display': 'none'}
+            },
+        });
+    }
+
+    handleSelCity(adcode, localName) {
+        this.setState({
+            localName: localName,
+            adcode: adcode,
+            mysubway:subway("map-base", {
+                easy: 1,
+                adcode: adcode,
+            })
+        });
+
+        // console.log(this.state)
+        // this.state.mysubway = subway("map-base", {
+        //     easy: 1,
+        // });
+        this.handleCityBtnCancel();
+    }
+
     render() {
-        // let adcode = this.props.city.adcode;
-        // let thisSubway = subway;
-        // if(adcode !== this.state.adcode){
-        //     let mysubway = thisSubway("map-base", {
-        //         easy: 1,
-        //         // adcode: this.state.adcode
-        //     });
-        //     console.log(adcode);
-        // }
+        let cityList = this.state.cityList;
+        let LiDom = [];
+        for (var i in cityList) {
+            LiDom.push(<li key={i}
+                           onClick={this.handleSelCity.bind(this, i, cityList[i].name)}>{cityList[i].name}</li>);
+        }
 
         return (
             <div>
@@ -84,7 +121,8 @@ class MapBase extends React.Component {
                         </span>
                         <input type="text" placeholder="输入终点" className="local-input"/>
                     </div>
-                    <span className="local-name" onClick={this.handleCityBtnClick.bind(this)}>{city.localName}</span>
+                    <span className="local-name"
+                          onClick={this.handleCityBtnClick.bind(this)}>{this.state.localName}</span>
                 </div>
 
                 <div className="city-list" style={this.state.style.cityList}>
