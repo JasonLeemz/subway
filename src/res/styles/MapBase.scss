@@ -11,3 +11,25 @@
     //padding-top:40%;
   }
 }
+
+#opt-float{
+  width:.8rem;
+  height:.8rem;
+  overflow: hidden;
+  border:1px solid #9d9d9d;
+  border-radius: .05rem;
+  position: fixed;
+  z-index: 999;
+  top:1.3rem;
+  right:.35rem;
+  font-size: .2rem;
+  background: #FeFeFe;
+  color: #9d9d9d;
+  font-weight: 300;
+  text-align: center;
+  padding-top:.07rem;
+  box-shadow: 1px 1px 1px #9d9d9d;
+  .fa{
+    font-size: .4rem;
+  }
+}

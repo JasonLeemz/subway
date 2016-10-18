@@ -7,11 +7,15 @@ import '../res/styles/MapBase.scss';
 class MapBase extends React.Component {
     constructor(props) {
         super(props);
+        let localName = localStorage['localName'] || '北京';
+        let adcode = localStorage['adcode'] || '1100';
+
         this.state = {
-            localName: '北京',
-            adcode: '1100',
+            localName: localName,
+            adcode: adcode,
             mysubway: {},
             cityList: {},
+            lineList: {},
             style: {
                 cityList: {'display': 'none'}
             },
@@ -28,35 +32,33 @@ class MapBase extends React.Component {
         window.cbk = function () {
             let mysubway = subway("map-base", {
                 easy: 1,
-            });
-            this.setState({
-                mysubway: mysubway,
+                adcode: this.state.adcode,
             });
 
-            //
-            // mysubway.event.on("subway.complete", function () {
-            //     mysubway.addInfoWindow('南锣鼓巷');
-            //     var center = mysubway.getStCenter('南锣鼓巷');
-            //
-            //     mysubway.setCenter(center);
-            // });
+            let lineList = {};
+            mysubway.event.on("subway.complete", function () {
+                //获取所有线路
+                mysubway.getLinelist((list)=> {
+                    lineList = list;
+                });
+
+                this.setState({
+                    mysubway: mysubway,
+                    lineList: lineList
+                });
+
+                // mysubway.addInfoWindow('南锣鼓巷');
+                // var center = mysubway.getStCenter('南锣鼓巷');
+
+                // mysubway.setCenter(center);
+            }.bind(this));
             // console.log(this.state)
         }.bind(this);
+
+
     }
 
     componentWillReceiveProps() {
-        this.forceUpdate();
-        // console.log(this.props.city.adcode)
-        // this.setState({
-        //     adcode:this.props.city.adcode
-        // });
-        // window.cbk = function () {
-        //     let mysubway = subway("map-base", {
-        //         easy: 1,
-        //         adcode: this.state.adcode
-        //     });
-        // }.bind(this)
-
     }
 
     handleCityBtnClick(e) {
@@ -84,20 +86,19 @@ class MapBase extends React.Component {
     }
 
     handleSelCity(adcode, localName) {
-        this.setState({
-            localName: localName,
-            adcode: adcode,
-            mysubway:subway("map-base", {
-                easy: 1,
-                adcode: adcode,
-            })
-        });
-
-        // console.log(this.state)
-        // this.state.mysubway = subway("map-base", {
-        //     easy: 1,
+        // this.setState({
+        //     localName: localName,
+        //     adcode: adcode,
+        //     mysubway:subway("map-base", {
+        //         easy: 1,
+        //         adcode: adcode,
+        //     })
         // });
-        this.handleCityBtnCancel();
+        //
+        // this.handleCityBtnCancel();
+        localStorage['adcode'] = adcode;
+        localStorage['localName'] = localName;
+        location.reload();
     }
 
     render() {
@@ -137,6 +138,10 @@ class MapBase extends React.Component {
                     </ul>
                 </div>
 
+                <span id="opt-float">
+                    <i className="fa fa-road" > </i>
+                    <div>线路</div>
+                </span>
                 <div id="map-base">
 
                 </div>
