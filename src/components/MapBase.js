@@ -141,7 +141,7 @@ class MapBase extends React.Component {
                 <span id="opt-float">
                     <i className="fa fa-road" > </i>
                     <div>线路</div>
-                    
+
                 </span>
                 <div id="map-base">
 
