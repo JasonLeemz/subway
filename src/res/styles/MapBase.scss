@@ -1,3 +1,10 @@
+.mask{
+  position: fixed;
+  z-index: 998;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,.7);
+}
 #map-base{
   height: 100%;
   i.fa{
@@ -12,10 +19,23 @@
   }
 }
 
-#opt-float{
+//#tip-float{
+//  position: fixed;
+//}
+#map-base.amap-subway-api .route_close_btn{
   width:.7rem;
   height:.7rem;
-  overflow: hidden;
+  position: fixed;
+  z-index: 999;
+  top:1.3rem;
+  right:.35rem;
+  box-shadow: none;
+}
+
+#line-tip{
+  width:.7rem;
+  height:.7rem;
+  //overflow: hidden;
   //border:1px solid #9d9d9d;
   border-radius: .03rem;
   position: fixed;
@@ -32,5 +52,36 @@
 
   .fa{
     font-size: .4rem;
+  }
+  .btn-text{
+    display: block;
+    font-size: .2rem;
+  }
+
+  .line-list{
+    background: #FeFeFe;
+    width:600%;
+    margin-left:-500%;
+    height:700%;
+    overflow: auto;
+    border-radius: .03rem;
+    text-align: left;
+
+    ul{
+      padding:0 .25rem;
+      li{
+        height:.85rem;
+        line-height: .85rem;
+        border-bottom: 1px solid rgb(200, 200, 200);
+        font-size: .25rem;
+
+        .line-color{
+          display: inline-block;
+          width:.65rem;
+          height:.15rem;
+          margin-right: .2rem;
+        }
+      }
+    }
   }
 }
