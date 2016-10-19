@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-require('../res/tools/gaode.js');
+require('../res/tools/gaode_subway.js');
+// require('../res/tools/gaode_js.js');
 import '../res/styles/Header.scss';
 import '../res/styles/MapBase.scss';
 import $ from "jquery";
@@ -8,23 +9,12 @@ import $ from "jquery";
 class MapBase extends React.Component {
     constructor(props) {
         super(props);
+        // AMap.Geolocation()
+
         let localName = localStorage['localName'] || false;
         let adcode = localStorage['adcode'] || false;
-
-        navigator.geolocation.getCurrentPosition(
-            // showPosition
-            (position)=> {
-                console.log(position.coords.latitude, position.coords.longitude);
-                console.log("position");
-                console.log(position);
-            },
-            // showError
-            (error)=> {
-                console.log(error);
-            },
-        );
         this.state = {
-            localName: localName,
+            localName:localName,
             adcode: adcode,
             mysubway: {},
             cityList: {},
@@ -32,17 +22,30 @@ class MapBase extends React.Component {
             style_cityList: {display: 'none'},
             style_mask: {display: 'none'},
             style_lineList: {display: 'none'},
-            // style: {
-            //     cityList: {display: 'none'},
-            //     mask: {display: 'none'},
-            //     lineList: {display: 'none'},
-            // },
         };
+
+
+
 
     }
 
     componentWillMount() {
-        // alert('will');
+        if(!localStorage['localName']){
+            let that = this;
+            $.ajax({
+                url: 'http://pv.sohu.com/cityjson?ie=utf-8',
+                type: "get",
+                dataType: 'jsonp',
+                complete: function () {
+                    console.log(returnCitySN.cname);
+                    // localStorage['localName'] = returnCitySN.cname.split('市')[0];
+                    // this.state.localName = returnCitySN.cname.split('市')[0];
+                    that.setState({
+                        localName:returnCitySN.cname.split('市')[0]
+                    });
+                }
+            });
+        }
     }
 
     componentDidMount() {
@@ -75,17 +78,52 @@ class MapBase extends React.Component {
                     lineList: lineList
                 });
 
+                //待开发 文档不全
+                // navigator.geolocation.getCurrentPosition(
+                //     // showPosition
+                //     (position)=> {
+                //         console.log(position.coords.latitude, position.coords.longitude);
+                //
+                //         $.ajax({
+                //             url: "http://restapi.amap.com/v3/assistant/coordinate/convert?locations=" + position.coords.longitude + "," + position.coords.latitude + "&coordsys=gps&output=json&key=c442e0ca8916ff1186ba0dc063040040",
+                //             type: 'get',
+                //             dataType: 'json',
+                //             success: function (d) {
+                //                 // let stationName = mysubway.getNearStation(d.locations);
+                //                 let stationName = mysubway.getNearStation([116.0119343,39.66127144]);
+                //                 console.log(d);
+                //                 console.log(stationName);
+                //
+                //                 // mysubway.addInfoWindow('南锣鼓巷');
+                //                 // var center = mysubway.getStCenter('南锣鼓巷');
+                //                 //
+                //                 // mysubway.setCenter(center);
+                //
+                //                 let detailOpts = {
+                //                     type: "circle",
+                //                     r: 14,
+                //                     customClass: "custom_circle"
+                //                 };
+                //
+                //                 mysubway.addCustomNode(stationName, detailOpts);
+                //                 mysubway.addInfoWindow(stationName, {
+                //                     isCustom: true,
+                //                     content: '<div class="tip_out"><div class="tip"><div class="tip_name">离我最近</div><div class="tip_footer"><span id="triangle-down"></span></div></div>'
+                //                 });
+                //             }
+                //         });
+                //     },
+                //     // showError
+                //     (error)=> {
+                //         console.log(error);
+                //     },
+                // );
 
-                // mysubway.addInfoWindow('南锣鼓巷');
-                // var center = mysubway.getStCenter('南锣鼓巷');
 
-                // mysubway.setCenter(center);
             }.bind(this));
             // console.log(this.state)
 
         }.bind(this);
-
-
     }
 
     componentWillReceiveProps() {
