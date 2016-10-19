@@ -11,15 +11,27 @@ class MapBase extends React.Component {
         let localName = localStorage['localName'] || false;
         let adcode = localStorage['adcode'] || false;
 
+        navigator.geolocation.getCurrentPosition(
+            // showPosition
+            (position)=> {
+                console.log(position.coords.latitude, position.coords.longitude);
+                console.log("position");
+                console.log(position);
+            },
+            // showError
+            (error)=> {
+                console.log(error);
+            },
+        );
         this.state = {
             localName: localName,
             adcode: adcode,
             mysubway: {},
             cityList: {},
             lineList: {},
-            style_cityList:{display: 'none'},
-            style_mask:{display: 'none'},
-            style_lineList:{display: 'none'},
+            style_cityList: {display: 'none'},
+            style_mask: {display: 'none'},
+            style_lineList: {display: 'none'},
             // style: {
             //     cityList: {display: 'none'},
             //     mask: {display: 'none'},
@@ -89,13 +101,13 @@ class MapBase extends React.Component {
         });
 
         this.setState({
-            style_cityList:{display: 'block'},
+            style_cityList: {display: 'block'},
         });
     }
 
     handleCityBtnCancel(e) {
         this.setState({
-            style_cityList:{display: 'none'},
+            style_cityList: {display: 'none'},
         });
     }
 
@@ -118,8 +130,8 @@ class MapBase extends React.Component {
     handleSelLine(orderId, lineId) {
         this.state.mysubway.showLine(lineId);
         this.setState({
-            style_mask:{display: 'none'},
-            style_lineList:{display: 'none'},
+            style_mask: {display: 'none'},
+            style_lineList: {display: 'none'},
         });
 
         // route_close_btn 移除hidden class
@@ -134,13 +146,13 @@ class MapBase extends React.Component {
     handleClickLineBtn() {
         if (this.state.style_mask.display === 'none') {
             this.setState({
-                style_mask:{display: 'block'},
-                style_lineList:{display: 'block'},
+                style_mask: {display: 'block'},
+                style_lineList: {display: 'block'},
             });
         } else {
             this.setState({
-                style_mask:{display: 'none'},
-                style_lineList:{display: 'none'},
+                style_mask: {display: 'none'},
+                style_lineList: {display: 'none'},
             });
         }
     }
