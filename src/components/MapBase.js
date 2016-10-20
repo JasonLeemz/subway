@@ -4,9 +4,8 @@ require('../res/tools/gaode_subway.js');
 // require('../res/tools/gaode_js.js');
 import '../res/styles/Header.scss';
 import '../res/styles/MapBase.scss';
-// require( '../res/font-awesome-4.6.3/css/font-awesome.min.css');
 import $ from "jquery";
-import {Icon} from 'react-fa'
+import {Icon} from 'react-fa';
 
 class MapBase extends React.Component {
     constructor(props) {
@@ -24,13 +23,12 @@ class MapBase extends React.Component {
             style_cityList: {display: 'none'},
             style_mask: {display: 'none'},
             style_lineList: {display: 'none'},
-            style_searchList: {display: 'block'},
+            style_searchList: {display: 'none'},
 
-            // inputStart: [],
-            // inputEnd: [],
+            inputStart: '',
+            inputEnd: '',
             inputSearchDirect: 'input_start',
             searchList: []
-
         };
     }
 
@@ -201,12 +199,21 @@ class MapBase extends React.Component {
     }
 
     handleChangeInputState(inputType) {
+        console.log("inputType-" + inputType)
+
         this.setState({
             style_searchList: {display: 'block'},
             inputSearchDirect: inputType
         }, ()=> {
             ReactDOM.findDOMNode(this.refs.searchInput).focus();
+            if (inputType === 'input_start') {
+                this.refs.searchInput.value = this.state.inputStart;
+            } else {
+                this.refs.searchInput.value = this.state.inputEnd;
+            }
+            console.log("inputSearchDirect-" + this.state.inputSearchDirect)
         });
+
     }
 
     handleStationSearch() {
@@ -236,6 +243,62 @@ class MapBase extends React.Component {
             style_searchList: {display: 'none'},
         });
     }
+
+    handleSelectStation(stationName) {
+
+        if (this.state.inputSearchDirect == 'input_start') {
+            console.log("input_start-" + stationName)
+            this.setState({
+                inputStart: stationName,
+                style_searchList: {display: 'none'},
+                searchList: [],
+            }, ()=> {
+                this.state.mysubway.setStart(stationName);
+                if (this.state.inputStart && this.state.inputEnd) {
+                    this.state.mysubway.route(this.state.inputStart, this.state.inputEnd, {
+                        closeBtn: true
+                    });
+                } else {
+                    let center = this.state.mysubway.getStCenter(stationName);
+                    this.state.mysubway.setCenter(center);
+                }
+            });
+        } else {
+            console.log("input_end-" + stationName)
+            this.setState({
+                inputEnd: stationName,
+                style_searchList: {display: 'none'},
+                searchList: [],
+            }, ()=> {
+                this.state.mysubway.setEnd(stationName);
+                if (this.state.inputStart && this.state.inputEnd) {
+                    this.state.mysubway.route(this.state.inputStart, this.state.inputEnd, {
+                        closeBtn: true
+                    });
+                } else {
+                    let center = this.state.mysubway.getStCenter(stationName);
+                    this.state.mysubway.setCenter(center);
+                }
+            });
+        }
+    }
+
+    handleExchangeStation() {
+        let start = this.state.inputStart,
+            end = this.state.inputEnd;
+        this.setState({
+            inputStart: end,
+            inputEnd: start,
+        }, ()=> {
+            this.state.mysubway.setStart(end);
+            this.state.mysubway.setEnd(start);
+
+            this.state.mysubway.route(end, start, {
+                closeBtn: true
+            });
+        });
+    }
+
 
     render() {
         //城市列表
@@ -274,7 +337,7 @@ class MapBase extends React.Component {
                 );
             }
             searchListDom.push(
-                <li key={k}>
+                <li key={k} onClick={this.handleSelectStation.bind(this, searchList[k].name)}>
                     <i className="fa fa-subway"> </i>
                     <span className="list-content">
                         <span className="list-station-name">{searchList[k].name}</span>
@@ -282,6 +345,7 @@ class MapBase extends React.Component {
                             {labelListDom}
                         </span>
                     </span>
+                    <span className="fa fa-angle-left"> </span>
                 </li>
             );
         }
@@ -296,12 +360,14 @@ class MapBase extends React.Component {
                         </span>
                     <div className="input-wrap">
                         <input type="text" placeholder="输入起点" className="local-input" ref="input_start" readOnly
+                               value={this.state.inputStart}
                                onClick={this.handleChangeInputState.bind(this, "input_start")}/>
 
-                        <span className="opt-swap">
+                        <span className="opt-swap" onClick={this.handleExchangeStation.bind(this)}>
                             <i className="fa fa-exchange"> </i>
                         </span>
                         <input type="text" placeholder="输入终点" className="local-input" ref="input_end" readOnly
+                               value={this.state.inputEnd}
                                onClick={this.handleChangeInputState.bind(this, "input_end")}/>
 
                     </div>
