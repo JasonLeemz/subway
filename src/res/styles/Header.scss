@@ -34,6 +34,9 @@
       height: .65rem;
       line-height: .65rem;
       border: 1px solid #9d9d9d;
+      -webkit-appearance: none;
+      //border: 0;
+      border-radius: 0;
       padding: .1rem;
       width: 45%;
       font-size: .25rem;
@@ -47,6 +50,7 @@
       font-size: .3rem;
       color: #9d9d9d;
     }
+
   }
   .local-name {
     display: inline-block;
@@ -76,8 +80,8 @@
   background: #FFF;
   .trans-title {
     position: fixed;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: .95rem;
     border-bottom: 1px solid rgb(200, 200, 200);
@@ -99,14 +103,124 @@
     }
   }
 
-  ul{
-    margin-top:.95rem;
-    padding:0 .25rem;
-    li{
-      height:.95rem;
-      line-height:.95rem;
+  ul {
+    margin-top: .95rem;
+    padding: 0 .25rem;
+    li {
+      height: .95rem;
+      line-height: .95rem;
       border-bottom: 1px solid rgb(240, 240, 240);
-      padding-left:.2rem;
+      padding-left: .2rem;
+    }
+  }
+}
+
+.search-list {
+  display: block;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  font-size: .35rem;
+  overflow: auto;
+  background: #FFF;
+  .search-keywords {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: .95rem;
+    border-bottom: 1px solid rgb(200, 200, 200);
+    text-align: left;
+    padding-left: 8%;
+    line-height: .95rem;
+    background: #F8F8F8;
+    .opt-arrow {
+      display: inline-block;
+      vertical-align: top;
+      position: absolute;
+      left: 0;
+      height: .95rem;
+      width: 8%;
+      max-width: 8%;
+      overflow: hidden;
+      text-align: center;
+      font-size: .5rem;
+      color: #616161;
+    }
+
+    .input-wrap {
+      position: relative;
+      input.search-input {
+        height: .65rem;
+        line-height: .65rem;
+        width: 90%;
+        border: 1px solid #9d9d9d;
+        border-radius: .05rem;
+        -webkit-appearance: none;
+        font-size: .3rem;
+        padding-left: .5rem;
+      }
+      .fa {
+        color: rgb(200, 200, 200);
+        position: absolute;
+        top: .3rem;
+        left: .07rem;
+      }
+    }
+
+  }
+
+  ul {
+    margin-top: .95rem;
+    padding: 0 .2rem;
+    li {
+      height: 1.4rem;
+      line-height: 1.4rem;
+      border-bottom: 1px solid rgb(240, 240, 240);
+      padding-left: .2rem;
+
+      .fa {
+        color: #9d9d9d;
+        font-size: .5rem;
+        margin-right: .3rem;
+        vertical-align: top;
+        line-height: 1.4rem;
+      }
+
+      .list-content {
+        display: inline-block;
+        height: 1rem;
+        vertical-align: middle;
+        overflow: hidden;
+        font-size: 0;
+        .list-station-name {
+          display: block;
+          height: .5rem;
+          //background: #0070ED;
+          line-height: .5rem;
+          font-size: .3rem;
+          padding: 0;
+        }
+        .list-station-refs {
+          display: inline-block;
+          vertical-align: top;
+          height:.5rem;
+          line-height: .5rem;
+
+          label{
+            display: inline-block;
+            height:.4rem;
+            line-height: .4rem;
+            color: #FFF;
+            border-radius: .05rem;
+            font-size: .2rem;
+            padding: 0 .15rem;
+            margin-right:.1rem;
+            //text-shadow: 1px 1px 0 #ddd;
+          }
+        }
+      }
     }
   }
 }

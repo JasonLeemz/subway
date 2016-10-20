@@ -4,7 +4,9 @@ require('../res/tools/gaode_subway.js');
 // require('../res/tools/gaode_js.js');
 import '../res/styles/Header.scss';
 import '../res/styles/MapBase.scss';
+// require( '../res/font-awesome-4.6.3/css/font-awesome.min.css');
 import $ from "jquery";
+import {Icon} from 'react-fa'
 
 class MapBase extends React.Component {
     constructor(props) {
@@ -14,7 +16,7 @@ class MapBase extends React.Component {
         let localName = localStorage['localName'] || false;
         let adcode = localStorage['adcode'] || false;
         this.state = {
-            localName:localName,
+            localName: localName,
             adcode: adcode,
             mysubway: {},
             cityList: {},
@@ -22,15 +24,18 @@ class MapBase extends React.Component {
             style_cityList: {display: 'none'},
             style_mask: {display: 'none'},
             style_lineList: {display: 'none'},
+            style_searchList: {display: 'block'},
+
+            // inputStart: [],
+            // inputEnd: [],
+            inputSearchDirect: 'input_start',
+            searchList: []
+
         };
-
-
-
-
     }
 
     componentWillMount() {
-        if(!localStorage['localName']){
+        if (!localStorage['localName']) {
             let that = this;
             $.ajax({
                 url: 'http://pv.sohu.com/cityjson?ie=utf-8',
@@ -41,7 +46,7 @@ class MapBase extends React.Component {
                     // localStorage['localName'] = returnCitySN.cname.split('市')[0];
                     // this.state.localName = returnCitySN.cname.split('市')[0];
                     that.setState({
-                        localName:returnCitySN.cname.split('市')[0]
+                        localName: returnCitySN.cname.split('市')[0]
                     });
                 }
             });
@@ -195,6 +200,43 @@ class MapBase extends React.Component {
         }
     }
 
+    handleChangeInputState(inputType) {
+        this.setState({
+            style_searchList: {display: 'block'},
+            inputSearchDirect: inputType
+        }, ()=> {
+            ReactDOM.findDOMNode(this.refs.searchInput).focus();
+        });
+    }
+
+    handleStationSearch() {
+        let keywords = this.refs.searchInput.value;
+        // let keywords = event.target.value;
+        // console.log(keywords)
+        this.state.mysubway.stationSearch(keywords, (d)=> {
+            this.setState({
+                searchList: d.stationList,
+            });
+            // console.log(d)
+            // if (this.state.inputSearchDirect === 'input_start') {
+            //     this.setState({
+            //         inputStart: d.stationList,
+            //     });
+            // } else {
+            //     this.setState({
+            //         inputEnd: d.stationList,
+            //     });
+            // }
+
+        });
+    }
+
+    handleSearchBtnCancel() {
+        this.setState({
+            style_searchList: {display: 'none'},
+        });
+    }
+
     render() {
         //城市列表
         let cityList = this.state.cityList;
@@ -218,6 +260,33 @@ class MapBase extends React.Component {
             </li>);
         }
 
+        //搜索列表
+        let searchList = this.state.searchList;
+        let searchListDom = [];
+        for (var k in searchList) {
+            let labelListDom = [];
+            for (var ki in searchList[k].referlines) {
+                let lineStyle = {
+                    'background': '#' + searchList[k].referlines[ki].color
+                };
+                labelListDom.push(
+                    <label style={lineStyle} key={ki}>{searchList[k].referlines[ki].name}</label>
+                );
+            }
+            searchListDom.push(
+                <li key={k}>
+                    <i className="fa fa-subway"> </i>
+                    <span className="list-content">
+                        <span className="list-station-name">{searchList[k].name}</span>
+                        <span className="list-station-refs">
+                            {labelListDom}
+                        </span>
+                    </span>
+                </li>
+            );
+        }
+
+
         return (
             <div>
                 <div className="mask" style={this.state.style_mask} onClick={this.handleClickLineBtn.bind(this)}></div>
@@ -226,11 +295,15 @@ class MapBase extends React.Component {
                             {/*<i className="fa fa-angle-left"> </i>*/}
                         </span>
                     <div className="input-wrap">
-                        <input type="text" placeholder="输入起点" className="local-input"/>
+                        <input type="text" placeholder="输入起点" className="local-input" ref="input_start" readOnly
+                               onClick={this.handleChangeInputState.bind(this, "input_start")}/>
+
                         <span className="opt-swap">
                             <i className="fa fa-exchange"> </i>
                         </span>
-                        <input type="text" placeholder="输入终点" className="local-input"/>
+                        <input type="text" placeholder="输入终点" className="local-input" ref="input_end" readOnly
+                               onClick={this.handleChangeInputState.bind(this, "input_end")}/>
+
                     </div>
                     <span className="local-name"
                           onClick={this.handleCityBtnClick.bind(this)}>{this.state.localName}</span>
@@ -247,6 +320,25 @@ class MapBase extends React.Component {
                         {cityListDom}
                     </ul>
                 </div>
+
+                <div className="search-list" style={this.state.style_searchList}>
+                    <div className="search-keywords">
+                        <span className="opt-arrow">
+                            <i className="fa fa-angle-left" onClick={this.handleSearchBtnCancel.bind(this)}> </i>
+                        </span>
+                        <div className="input-wrap">
+                            <i className="fa fa-search"> </i>
+                            <input type="text" className="search-input" ref="searchInput"
+                                   onChange={this.handleStationSearch.bind(this)}/>
+                        </div>
+
+                        {/*<Icon spin name="spinner" /> 这里也可以这么写 */}
+                    </div>
+                    <ul>
+                        {searchListDom}
+                    </ul>
+                </div>
+
                 <span id="line-tip">
                     <span onClick={this.handleClickLineBtn.bind(this)}>
                         <i className="fa fa-road"> </i>
